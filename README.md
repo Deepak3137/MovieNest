@@ -1,3 +1,0 @@
-# MovieNest
-
-Currently Working on it...
