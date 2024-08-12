@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useFetchDetail from '../hooks/useFetchDetail';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import Divider from '../components/Divider';
 import useFetch from '../hooks/useFetch';
 import HorizontalScrollCard from '../components/HorizontalScrollCard';
 import { HiRadio } from 'react-icons/hi2';
+import VedioPlay from '../components/VedioPlay';
 
 const DetailPage = () => {
   const params = useParams();
@@ -15,9 +16,16 @@ const DetailPage = () => {
   const imageURL = useSelector(state => state.movieoData.imageURL);
   const {data : similiarData} = useFetch(`/${params?.explore}/${params?.id}/similar`)
   const {data : recommendedData} = useFetch(`/${params?.explore}/${params?.id}/recommendations`)
+  const [playVedio, setPlayVedio] = useState(false);
+  const [playVedioId, setPlayVedioId] = useState("");
   // console.log("data: ", castData);
 
   const duration = (Number(data?.runtime)/60).toFixed(1).split('.');
+
+  const handlePlayVedio = (data) => {
+    setPlayVedioId(data);
+    setPlayVedio(true);
+  }
   // console.log(duration);
 
   const writer = castData?.crew?.filter(el => el?.department === "Writing")?.map(el => el?.name)?.join(', ');
@@ -31,6 +39,7 @@ const DetailPage = () => {
             alt='NoImage'
             className='h-full w-full object-cover'
           />
+          
         </div>
         <div className='absolute w-full h-full top-0 bg-gradient-to-t from-neutral-900/90 to-transparent'>
         </div>
@@ -43,6 +52,9 @@ const DetailPage = () => {
             alt='NoImage'
             className='h-80 w-60 object-cover rounded-md'
           />
+          <button onClick={() => handlePlayVedio(data)} className='mt-3 w-full py-2 px-4 text-center bg-white text-black rounded font-bold text-lg hover:bg-gradient-to-l from-red-500 to-orange-400 hover:scale-105 transition-all'>
+            Play Now
+          </button>
         </div>
 
 
@@ -134,6 +146,14 @@ const DetailPage = () => {
       <div>
         <HorizontalScrollCard data={recommendedData} heading={'Recommended ' + params?.explore} media_type={params?.explore}/>
       </div>
+
+      {
+        playVedio && (
+          <VedioPlay data={playVedioId} close={() => setPlayVedio(false)} media_type={params?.explore}/>
+        )
+      }
+
+      
     </div>
   )
 }

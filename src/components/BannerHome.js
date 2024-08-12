@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaAnglesRight } from "react-icons/fa6";
 import { FaAnglesLeft } from "react-icons/fa6";
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom';
 
 const BannerHome = () => {
   const bannerData = useSelector(state => state.movieoData.bannerData);
@@ -71,17 +72,17 @@ const BannerHome = () => {
                 <div className='absolute top-0 h-full w-full bg-gradient-to-t from-neutral-900 to-transparent'> 
                 </div>
                 <div className='mx-auto container'>
-                  <div className='absolute bottom-0 max-w-md px-3'>
+                  <div className='absolute bottom-0 max-w-md px-3 py-5'>
                     <h2 className='font-bold test-2xl lg:text-4xl text-white drop-shadow-2xl'>{data?.title || data?.name}</h2>
                     <p className='text-ellipsis line-clamp-3 my-2'>{data?.overview}</p>
-                    <div className='flex items-center gap-4'> 
+                    <div className='flex items-center gap-4 pb-4'> 
                       <p>Rating : {Number(data?.vote_average).toFixed(1)}+</p>
                       <span> | </span>
                       <p>View : {Number(data?.popularity).toFixed(1)}k</p>
                     </div>
-                    <button className='text-black bg-white font-bold px-4 py-2 rounded mt-4 hover:bg-gradient-to-l from-red-300 to-orange-500 shadow-md transition-all hover:scale-105'>
+                    <Link to={'/' + data?.media_type + '/' + data?.id} className='text-black bg-white font-bold px-4 py-2 rounded mt-4 hover:bg-gradient-to-l from-red-300 to-orange-500 shadow-md transition-all hover:scale-105'>
                       Play Now
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
